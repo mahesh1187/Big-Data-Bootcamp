@@ -1,0 +1,42 @@
+# Download the data from Github and save it on vm machine
+wget https://raw.githubusercontent.com/shashank-mishra219/Hive-Class/main/sales_order_data.csv
+
+# Activate Hive 
+hive
+
+# create database to load the data 
+1. create database sales_assign;
+
+# Check whether db is created or not
+show databases;
+
+# create table structure to load csv data into it. it will internal table 
+Create table sales_order
+(
+ORDERNUMBER int,	QUANTITYORDERED int, PRICEEACH float, ORDERLINENUMBER int, SALES	float,
+STATUS string, QTR_ID int, MONTH_ID int, YEAR_ID int, PRODUCTLINE	string, MSRP	int, PRODUCTCODE string,	
+PHONE	int, CITY string, STATE	string, POSTALCODE	int, COUNTRY	string, TERRITORY	string,
+CONTACTLASTNAME	string, CONTACTFIRSTNAME	string, DEALSIZE string
+)
+row format delimited
+fields terminated by ',';
+
+# Verify table is created or not 
+show tables;
+
+# check table type in hive
+describe formatted sales_order;
+
+# load data from local machine to hive table
+hive  ---activate hive shell if not
+use sales;  ---- select database to insert the data
+load data local inpath 'file:///home/cloudera/Desktop/data/sales_order_data.csv' into table sales_order;
+
+# Display column name
+set hive.cli.print.header = true;
+
+# Check the data from table 
+select * from sales_order limit 10 ; --- limit is used to show first 10 rows 
+
+
+
