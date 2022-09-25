@@ -5,13 +5,13 @@ wget https://raw.githubusercontent.com/shashank-mishra219/Hive-Class/main/sales_
 hive
 
 # create database to load the data 
-1. create database sales_assign;
+1. create database IF NOT EXISTS sales_assign;
 
 # Check whether db is created or not
 show databases;
 
 # create table structure to load csv data into it. it will internal table 
-Create table sales_order
+Create table IF NOT EXISTS sales_order
 (
 ORDERNUMBER int,	QUANTITYORDERED int, PRICEEACH float, ORDERLINENUMBER int, SALES	float,
 STATUS string, QTR_ID int, MONTH_ID int, YEAR_ID int, PRODUCTLINE	string, MSRP	int, PRODUCTCODE string,	
@@ -19,7 +19,8 @@ PHONE	int, CITY string, STATE	string, POSTALCODE	int, COUNTRY	string, TERRITORY	
 CONTACTLASTNAME	string, CONTACTFIRSTNAME	string, DEALSIZE string
 )
 row format delimited
-fields terminated by ',';
+fields terminated by ','
+TBLPROPERTIES ("skip.header.line.count"="1"); --- to skip first row of data
 
 # Verify table is created or not 
 show tables;
@@ -37,6 +38,65 @@ set hive.cli.print.header = true;
 
 # Check the data from table 
 select * from sales_order limit 10 ; --- limit is used to show first 10 rows 
+
+# create table sales_order_orc 
+create table IF NOT EXISTS sales_order_data_orc
+(
+ORDERNUMBER int,
+QUANTITYORDERED int,
+PRICEEACH float,
+ORDERLINENUMBER int,
+SALES float,
+STATUS string,
+QTR_ID int,
+MONTH_ID int,
+YEAR_ID int,
+PRODUCTLINE string,
+MSRP int,
+PRODUCTCODE string,
+PHONE string,
+CITY string,
+STATE string,
+POSTALCODE string,
+COUNTRY string,
+TERRITORY string,
+CONTACTLASTNAME string,
+CONTACTFIRSTNAME string,
+DEALSIZE string
+)
+stored as orc;
+
+# Load data from sales_order to sales_order_data_orc
+
+insert into table sales_order_data_orc select * from sales_order;
+
+Perform below menioned queries on "sales_order_data_orc" table :
+
+a. Calculatye total sales per year
+Answer - select year_id, sum(sales) as total_sales from sales_order_data_orc group by year_id;
+
+b. Find a product for which maximum orders were placed
+Answer -  select productline, max(quantityordered) as order_quantity from sales_order_data_orc
+group by productline limit 1;
+
+c. Calculate the total sales for each quarter
+Answer - select QTR_ID, sum(sales) from sales_order_data_orc group by QTR_ID; 
+
+d. In which quarter sales was minimum
+Answer - 
+
+e. In which country sales was maximum and in which country sales was minimum
+
+f. Calculate quartelry sales for each city
+Answer - select city,Qtr_id , sum(sales) as total from sales_order_data_orc group by city , Qtr_id;
+
+h. Find a month for each year in which maximum number of quantities were sold
+
+
+
+
+
+
 
 
 
