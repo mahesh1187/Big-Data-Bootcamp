@@ -84,13 +84,25 @@ Answer - select QTR_ID, sum(sales) from sales_order_data_orc group by QTR_ID;
 
 d. In which quarter sales was minimum
 Answer - 
+select city , sales1 as sales from ( select city as city , sum(sales) as sales1 from sales_order_data_orc 
+group by city) d order by sales limit 1;
 
 e. In which country sales was maximum and in which country sales was minimum
+Answer- select t.city , t.sales from (select city , sales,ROW_NUMBER() OVER(partition by city order by sales asc) as rn
+from sales_order_data_orc ) t where t.rn = 1
+union all
+select t.city , t.sales from (select city , sales,ROW_NUMBER() OVER(partition by city order by sales desc) as rn
+from sales_order_data_orc ) t
+where t.rn = 1;
+
 
 f. Calculate quartelry sales for each city
 Answer - select city,Qtr_id , sum(sales) as total from sales_order_data_orc group by city , Qtr_id;
 
 h. Find a month for each year in which maximum number of quantities were sold
+
+Answer - select YEAR_ID as year, MONTH_ID as month , max(quantityordered) as SoldQuantity from sales_order_data_orc 
+group by YEAR_ID,MONTH_ID;
 
 
 
