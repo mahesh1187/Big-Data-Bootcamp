@@ -1,10 +1,14 @@
 Download Dataset 1 - https://drive.google.com/file/d/1WrG-9qv6atP-W3P_-gYln1hHyFKRKMHP/view
 
 1. Create a schema based on the given dataset
-# 
+# create schema Agentdb;
+-- To check the schema is created or not 
+show schemas OR show databases;
 
 
 2. Dump the data inside the hdfs in the given schema location.
+Ans - 
+
 3. List of all agents' names. 
 4. Find out agent average rating.
 5. Total working days for each agents 
