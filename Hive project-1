@@ -4,13 +4,31 @@ Download Dataset 1 - https://drive.google.com/file/d/1WrG-9qv6atP-W3P_-gYln1hHyF
 # create schema Agentdb;
 -- To check the schema is created or not 
 show schemas OR show databases;
+--Create table to access the data 
+create table IF NOT EXISTS agentdata
+(
+slno int,
+Name string,
+date date,
+LoginTime Timestamp,
+LogoutTime Timestamp,
+Duration Timestamp
+) 
+row format delimited
+fields terminated by ','
+TBLPROPERTIES ("skip.header.line.count"="1"); 
 
 
 2. Dump the data inside the hdfs in the given schema location.
-Ans - 
+Ans -hadoop fs -put /home/cloudera/Desktop/dumpdata/AgentLogingReport.csv  /user/hive/warehouse/agentdb.db/agentdata
+ 
 
 3. List of all agents' names. 
+Ans - select Name as AgentName from agentdata;
+
 4. Find out agent average rating.
+Ans-
+
 5. Total working days for each agents 
 6. Total query that each agent have taken 
 7. Total Feedback that each agent have received 
