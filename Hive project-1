@@ -1,26 +1,42 @@
 Download Dataset 1 - https://drive.google.com/file/d/1WrG-9qv6atP-W3P_-gYln1hHyFKRKMHP/view
+Download Dataset 2 -  https://drive.google.com/file/d/1-JIPCZ34dyN6k9CqJa-Y8yxIGq6vTVXU/view
 
 1. Create a schema based on the given dataset
 # create schema Agentdb;
 -- To check the schema is created or not 
 show schemas OR show databases;
 --Create table to access the data 
-create table IF NOT EXISTS agentdata
+1-  create table IF NOT EXISTS agentdata
+   (
+   slno int,
+   Name string,
+   date date,
+   LoginTime Timestamp,
+   LogoutTime Timestamp,
+   Duration Timestamp
+   ) 
+   row format delimited
+   fields terminated by ','
+   TBLPROPERTIES ("skip.header.line.count"="1"); 
+   
+ 2-Create table Agentperformance
 (
-slno int,
-Name string,
-date date,
-LoginTime Timestamp,
-LogoutTime Timestamp,
-Duration Timestamp
-) 
+date string,
+Agent_Name  string,
+Total_Chat string,
+AvgResponseTime string,
+Avg_Resolution_Time string,
+Avg_Rating string,
+Total_Feedback string
+)
 row format delimited
 fields terminated by ','
-TBLPROPERTIES ("skip.header.line.count"="1"); 
+tblproperties ("skip.header.line.count"="1");
 
 
 2. Dump the data inside the hdfs in the given schema location.
 Ans -hadoop fs -put /home/cloudera/Desktop/dumpdata/AgentLogingReport.csv  /user/hive/warehouse/agentdb.db/agentdata
+# hadoop fs -put /home/cloudera/Desktop/dumpdata/AgentLogingReport.csv  /user/hive/warehouse/agentdb.db/agentperformance
  
 
 3. List of all agents' names. 
