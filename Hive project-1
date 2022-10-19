@@ -37,13 +37,16 @@ tblproperties ("skip.header.line.count"="1");
 2. Dump the data inside the hdfs in the given schema location.
 Ans -hadoop fs -put /home/cloudera/Desktop/dumpdata/AgentLogingReport.csv  /user/hive/warehouse/agentdb.db/agentdata
 # hadoop fs -put /home/cloudera/Desktop/dumpdata/AgentLogingReport.csv  /user/hive/warehouse/agentdb.db/agentperformance
- 
+
+# Load data into table;
+load data local inpath 'file:///home/cloudera/Desktop/dumpdata/AgentLogingReport.csv' into table agentdata;
+load data local inpath 'file:///home/cloudera/Desktop/dumpdata/Agentperformance.csv' into table agentperformance;
 
 3. List of all agents' names. 
 Ans - select Name as AgentName from agentdata;
 
 4. Find out agent average rating.
-Ans-
+Ans- select 
 
 5. Total working days for each agents 
 6. Total query that each agent have taken 
